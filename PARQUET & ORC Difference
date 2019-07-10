@@ -1,0 +1,31 @@
+Below are the Difference between ORC & Parquet.
+
+PARQUET
+========
+
+1. Parquet might be better if you have highly nested data, because it stores its elements as a tree like  structures.
+2. Default Compression is SNAPPY
+3. PARQUET keeps min/max statistics about column chunks, so it can also skip some of the data when querying.
+4. Parquet is the default data source in Spark.
+5. Spark has a vectorized parquet reader and no vectorized ORC reader 
+6.Spark performs best with parquet, hive performs best with ORC 
+
+Vectorization means that rows are decoded in batches, dramatically improving memory locality and cache utilization. 
+
+7.It's based on Google Dremel .
+
+
+
+
+ORC
+======
+
+1.Apache ORC might be better if your file-structure is flattened.
+2.Default Compression is ZLIB.
+3.ACID transactions are only possible when using ORC as the file format.
+4.ORC has Light Weight Index Column  an additional Bloom Filter which might be helpful for better query response time especially when it comes to sum operations.
+5.ORC files consist of groups of row data, called stripes, a file footer, and a postscript area at the end of the file.
+6.Stripes are typically 250 MB, and they contain index data, row data, and a stripe footer. 
+7.Index data contains minimum and maximum values for each column and row position in columns.
+8.Hive has a vectorized ORC reader but no vectorized parquet reader.
+  
