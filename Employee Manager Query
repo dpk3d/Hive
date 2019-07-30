@@ -1,0 +1,139 @@
+1. Get The Employee Name and their Manager from Below Employee Table.
+=====================================================================
+
+Emp_id    Emp_name    Manager_id
+--------------------------------
+Emp01     Deepak         Emp05
+Emp02     Pritam         Emp03
+Emp03     Manav          Emp05
+Emp04     Veeru          Emp02
+Emp05     Sudhansu       Emp02
+
+Query 1
+=========
+SELECT e.Emp_name,
+       e.Emp_name as Manager Name
+  FROM Employee e JOIN Employee m 
+    ON e.Emp_id = m.Manager_id
+    
+OUTPUT
+======
+
+Emp_Name    Manager Name
+------------------------------
+Deepak         Sudhansu
+Pritam         Manav
+Manav          Sudhansu
+Veeru          Pritam
+Sudhansu       Pritam
+
+Query2
+==========
+
+SELECT Emp_name AS Employee_Name,(SELECT Emp_name FROM  Employee  where
+Emp_id = Manager_id ) AS Manager_Name  FROM   Employee 
+--------------------------------------------------------------------------------------------------
+
+2. ************ Find Employee Who are Managers Using Self Join. *****************
+
+EmpId	EmpName	ManagerId
+1	Deepak	2
+2	Annu	null
+3	Jai	2
+4	Jitendra	1
+5	Vaishali	1
+6	Philip	4
+
+Query
+=====
+
+SELECT DISTINCT e.EmpId AS 'ManagerId', e.EmpName AS 'ManagerName'
+FROM Employees e, Employees m WHERE e.EmpId = m.ManagerId
+
+Output
+========
+ManagerId	ManagerName
+2	Annu
+1	Deepak
+4	Jitendra
+
+Refer to this Link: - http://codehunk.com/sql-find-employee-managers-using-self-join/
+------------------------------------------------------------------------------------------------------------------
+
+3. **************** Write a query to get the details of employees who manage a department *************************
+
+Employee Table
+
++-------------+-------------+------------+---------------+
+| EMPLOYEE_ID | FIRST_NAME  | MANAGER_ID | DEPARTMENT_ID |
++-------------+-------------+------------+---------------+
+|         100 | Steven      |          0 |            90 |
+|         101 | Neena       |        100 |            90 |
+|         102 | Lex         |        100 |            90 |
+|         103 | Alexander   |        102 |            60 |
+|         104 | Bruce       |        103 |            60 |
+|         105 | David       |        103 |            60 |
+|         106 | Valli       |        103 |            60 |
+|         107 | Diana       |        103 |            60 |
+|         123 | Shanta      |        100 |            50 |
+|         124 | Kevin       |        100 |            50 |
+|         125 | Julia       |        120 |            50 |
+|         126 | Irene       |        120 |            50 |
++-------------+-------------+------------+---------------+
+
+Department Table
+
++---------------+----------------------+------------+-------------+
+| DEPARTMENT_ID | DEPARTMENT_NAME      | MANAGER_ID | LOCATION_ID |
++---------------+----------------------+------------+-------------+
+|            10 | Administration       |        102 |        1700 |
+|            20 | Marketing            |        103 |        1800 |
+|            30 | Purchasing           |        102 |        1700 |
+|            40 | Human Resources      |        203 |        2400 |
+|            50 | Shipping             |        100 |        1500 |
+|            60 | IT                   |        103 |        1400 |
+|            70 | Public Relations     |        120 |        2700 |
+|            80 | Sales                |        145 |        2500 |
+|            90 | Executive            |        120 |        1700 |
++---------------+----------------------+------------+-------------+
+
+
+Query
+======
+SELECT * FROM employees WHERE employee_id=ANY ( SELECT manager_id FROM departments ); 
+------------------------------------------------------------------------------------------------------------
+
+4.********** ORGANIZATION HIERARCHY *********
+----------------------------------------------------
+
+1. Employees table contains the following columns 
+    a) EmployeeId, 
+    b) EmployeeName 
+    c) ManagerId 
+2. If an EmployeeId is passed, the query should list down the entire organization hierarchy
+i.e who is the manager of the EmployeeId passed and who is managers manager and so on till full hierarchy is listed.
+
+
+Here is the SQL that does the job
+Declare @ID int ;
+Set @ID = 7;
+
+WITH EmployeeCTE AS
+(
+ Select EmployeeId, EmployeeName, ManagerID
+ From Employees
+ Where EmployeeId = @ID
+ 
+ UNION ALL
+ 
+ Select Employees.EmployeeId , Employees.EmployeeName, Employees.ManagerID
+ From Employees
+ JOIN EmployeeCTE
+ ON Employees.EmployeeId = EmployeeCTE.ManagerID
+)
+
+Select E1.EmployeeName, ISNULL(E2.EmployeeName, 'No Boss') as ManagerName
+From EmployeeCTE E1
+LEFT Join EmployeeCTE E2
+ON E1.ManagerID = E2.EmployeeId
+-----------------------------------------------------------------------------------------
