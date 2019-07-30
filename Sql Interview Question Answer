@@ -1,0 +1,66 @@
+1. Write a query to sort a column in a user defined order? For ex: If a field contains name of different
+colors then Red to appear first, Blue to appear second and rest of colors in ascending order of Color. IF NULL
+is available in column then it should appear last.
+---------------------------------------------------------------------------------------------------------------------
+
+INPUT
+======
+
+ID Color
+1 PURPLE
+2 RED	
+3 GREEN 
+4 BLUE 	
+5 VIOLET
+6 RED 	
+7 YELLOW
+8 NULL	
+
+OUTPUT
+========
+ID Color
+2 RED
+6 RED
+4 BLUE
+3 GREEN
+1 PURPLE
+5 VIOLET
+7 YELLOW
+8 NULL
+
+ANSWER
+======
+
+SELECT * FROM TblName
+ORDER BY
+CASE
+WHEN Color='RED' THEN '0'
+WHEN Color='BLUE' THEN '1'
+WHEN COLOR IS NULL THEN 'zz'
+ELSE COLOR
+END
+
+
+2.Write a query to find the employee with Nth highest salary?
+--------------------------------------------------------------
+
+INPUT 
+ID Salary 
+1 50000
+2 60000
+3 70000
+4 80000 
+5 100000
+6 100000
+7 110000
+8 120000
+
+WITH CTE AS
+(
+SELECT *,
+DENSE_RANK() OVER (ORDER BY SALARY DESC) AS RANKING
+FROM TblName
+)
+SELECT * FROM CTE WHERE RANKING=1 -- HIGHEST
+--SELECT * FROM CTE WHERE RANKING=3 –-3rd HIGHEST
+--SELECT * FROM CTE WHERE RANKING=6 –-6TH HIGHEST
