@@ -1,0 +1,42 @@
+Partition
+---------------
+CREATE TABLE table_name (column1 data_type, column2 data_type) PARTITIONED BY (partition1 data_type, partition2 data_type,….);
+
+PARTITIONING will be used when there are few unique values in the Column - which you want to load with your required WHERE clause.
+BUCKETING will be used if there are multiple unique values in your Where clause.
+
+Pros:
+----------
+It distributes execution load horizontally.
+In partition faster execution of queries with the low volume of data takes place. 
+For example, search population from Vatican City returns very fast instead of searching entire world population.
+
+Cons:
+---------
+There is the possibility of too many small partition creations- too many directories.
+Having too many partitions is the large number of Hadoop files and directories that are created unnecessarily 
+and overhead to NameNode since it must keep all metadata for the file system in memory.
+
+Partition is effective for low volume data. For example, grouping population of China will take a long time 
+as compared to a grouping of the population in Vatican City.
+
+Bucketing  --- Uses Hash Function
++++++++++++
+CREATE TABLE mytable ( 
+         name string,
+         city string,
+         employee_id int ) 
+PARTITIONED BY (year STRING, month STRING, day STRING) 
+CLUSTERED BY (employee_id) INTO 256 BUCKETS
+
+Pros:
+---------
+It provides faster query response like portioning.
+In bucketing due to equal volumes of data in each partition, joins at Map side will be quicker.
+
+
+Cons:
+----------
+
+We can define a number of buckets during table creation. 
+But loading of an equal volume of data has to be done manually by programmers.
