@@ -1,7 +1,7 @@
-You have given two table.
-tasks has id and name of the problem to solve.
- Table 1 : tasks
- 
+#You have given two tables.
+#tasks has id, name of the problem to solve. 
+
+#Table1 : tasks 
 -------------
 id  | name
 -------------
@@ -11,20 +11,19 @@ id  | name
 300 | Tricolor
 -----------------
 
-reports has the candidateName with their scores anlong with unique id which is not null.
-
- Table 2 : reports
+#reports has the candidateName with their scores anlong with unique id which is not null.
+#Table2 : reports
  
 -------------------------------------------------
- id 	| task_id	| candidateName		| marks
+ id 	| task_id| candidateName	| marks
 -------------------------------------------------
-11		| 101		| Moni Singh      | 100 
-21		| 123		| Preetam Verma		| 34 
-32		| 300		| Veerendra Royal	| 50 
-22		| 101		| Deepak Singh 		| 45 
-42		| 142		| Kapil Sharma 		| 37 
-52		| 101		| Manav Sehgal 		| 3 
-72		| 300		| Abhishek Bang		| 0
+11	| 101	| Moni  Singh           | 100 
+21	| 123	| Preetam Verma		| 34 
+32	| 300	| Veerendra Royal	| 50 
+22	| 101	| Deepak Singh 		| 45 
+42	| 142	| Kapil Sharma 		| 37 
+52	| 101	| Manav Sehgal 		| 3 
+72	| 300	| Abhishek Bang		| 0
 ------------------------------------------------
 
 If Student average scores for particular task is less than 20% then tag the problem as Hard.
@@ -35,12 +34,12 @@ Expectation : Write a query which result which task is easy, medium and hard bas
   Output Should be like ..
   
 ---------------------------------------------
- task_id	| task_name		| difficultyLevel
+ task_id| task_name	| difficultyLevel
 ---------------------------------------------
-101			| Distance		| Easy
-123			| Equilizer		| Medium
-142			| Median		  | Hard
-300			| Tricolor		| Medium
+101	| Distance	| Easy
+123	| Equilizer	| Medium
+142	| Median	| Hard
+300	| Tricolor	| Medium
 ---------------------------------------------
 
 
@@ -57,8 +56,3 @@ on t.id = r.task_id
 where r.id is not null
 group by t.id, t.name
 order by task_id;
-
- 
-
- 
- 
