@@ -12,3 +12,13 @@ where c.company_code = lm.company_code
 	and m.manager_code = e.manager_code
 group by c.company_code, c.founder
 order by c.company_code;
+
+-- Another Approach
+-- Edge case where a senior manager has no managers in charge
+
+select E.company_code, C.founder, count(distinct lead_manager_code), count(distinct senior_manager_code),
+count(distinct manager_code), count(distinct employee_code) from Employee E 
+inner join 
+Company C on E.company_code = C.company_code 
+group by E.company_code, C.founder
+order by E.company_code;
