@@ -11,4 +11,9 @@ WHERE rank = 100;
 
 Select salary from employee ORDER BY salary DESC LIMIT 99,1 
 
+select * from
+(select Salary, rank() over (order by Salary desc) as r
+from Employee) a
+where r = 100;
+
 
